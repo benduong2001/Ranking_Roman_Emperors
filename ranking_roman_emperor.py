@@ -137,25 +137,6 @@ except:
 # * If it is a navigable String (bs4's type of string), it is kept.
 # * If it is an htmltag, we actually can't simply remove it. We must retrieve the text nested inside it. This is especially true with "a" tags, where the hyperlink text is part of the sentence itself.
 
-def canFetch(url):
-    
-    parsed_uri = urlparse(url)
-    domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
-
-    rp = urllib.robotparser.RobotFileParser()
-    rp.set_url(domain + "/robots.txt")
-    try:
-        rp.read()
-        canFetchBool = rp.can_fetch("*", url)
-    except:
-        canFetchBool = None
-    
-    return canFetchBool
-
-wiki_list_emperor_url = r"https://en.wikipedia.org/wiki/List_of_Roman_emperors"
-
-assert canFetch(wiki_list_emperor_url)
-
 def soup_emperor(url):
     url_text = requests.get(url)
     soup = BeautifulSoup(url_text.text, 'html.parser')
